@@ -9,6 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.likeComment = likeComment;
+exports.getCommentLikes = getCommentLikes;
+exports.dislike = dislike;
 const uuid_1 = require("uuid");
 const database_1 = require("../../../db/database");
 exports.default = {
@@ -27,3 +30,32 @@ exports.default = {
         });
     }
 };
+function likeComment(commentId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // TODO: Abra a conexão com o banco de dados.
+        const db = yield (0, database_1.openDatabase)();
+        // validação se comentario existe
+        const comment = yield db.get('SELECT * FROM comments WHERE id = ?', commentId);
+        if (!comment) {
+            throw new Error('Comentário não encontrado');
+        }
+        // TODO: Atualize a tabela de comentários, incrementandoo número de likes.
+        yield db.run('UPDATE comments SET likes = likes + 1 WHERE id = ?', [commentId]);
+    });
+}
+function getCommentLikes(commentId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        // TODO: Abra a conexão com o banco de dados.
+        const db = yield (0, database_1.openDatabase)();
+        // TODO: Retorne o número de likes para o comentário especificado pelo ID.
+        const count = yield db.get('SELECT likes FROM comments WHERE id = ?', commentId);
+        return (yield count) ? count.likes : 0;
+    });
+}
+function dislike(commentId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const db = yield (0, database_1.openDatabase)();
+        // TODO: Atualize a tabela de comentários, decrementandoo número de likes.
+        yield db.run('UPDATE comments SET likes = likes - 1 WHERE id = ?', [commentId]);
+    });
+}

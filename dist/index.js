@@ -15,7 +15,8 @@ app.use(express_1.default.json());
 (0, database_1.createTables)();
 // Rotas
 app.use('/posts', posts_1.default);
-app.use('/posts/:id/comments', comments_1.default);
+app.use('/posts', comments_1.default);
+app.use('/comments', comments_1.default);
 // Iniciando o servidor
 app.listen(port, () => {
     console.log(`API rodando em http://localhost:${port}`);

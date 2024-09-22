@@ -33,16 +33,18 @@ function createTables() {
         CREATE TABLE IF NOT EXISTS posts (
         id TEXT PRIMARY KEY,
         title TEXT,
-        content TEXT
+        content TEXT,
+        likes INTEGER DEFAULT 0
         );
-        `);
+    `);
         yield db.exec(`
         CREATE TABLE IF NOT EXISTS comments (
         id TEXT PRIMARY KEY,
         postId TEXT,
         content TEXT,
+        likes INTEGER DEFAULT 0,
         FOREIGN KEY(postId) REFERENCES posts(id)
         );
-        `);
+    `);
     });
 }

@@ -9,6 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.likePost = likePost;
+exports.getPostLikes = getPostLikes;
+exports.dislike = dislike;
 const uuid_1 = require("uuid");
 const database_1 = require("../../../db/database");
 exports.default = {
@@ -33,3 +36,25 @@ exports.default = {
         });
     }
 };
+function likePost(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const db = yield (0, database_1.openDatabase)();
+        // TODO: Atualize a tabela de posts, incrementando o número de likes.
+        yield db.run('UPDATE posts SET likes = likes + 1 WHERE id = ?', [id]);
+    });
+}
+function getPostLikes(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const db = yield (0, database_1.openDatabase)();
+        // TODO: Retorne o número de likes para o post especificado pelo ID.
+        const count = yield db.get('SELECT likes FROM posts WHERE id = ?', id);
+        return (yield count) ? count.likes : 0;
+    });
+}
+function dislike(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const db = yield (0, database_1.openDatabase)();
+        // TODO: Atualize a tabela de comentários, decrementandoo número de likes.
+        yield db.run('UPDATE posts SET likes = likes - 1 WHERE id = ?', [id]);
+    });
+}
