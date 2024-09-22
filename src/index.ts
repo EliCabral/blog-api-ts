@@ -14,7 +14,7 @@ createTables();
 
 // Rotas
 app.use('/posts', postRoutes);
-app.use('/posts/:id/comments', commentRoutes);
+app.use('/posts', commentRoutes);
 
 // Iniciando o servidor
 app.listen(port, () => {
